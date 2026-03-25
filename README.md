@@ -42,8 +42,8 @@ You do not need to install `assimp` manually. The renderer build uses a system c
 Clone the repo:
 
 ```bash
-git clone https://github.com/SalarAlo/rndr_nvim.git
-cd rndr_nvim
+git clone https://github.com/SalarAlo/rndr.nvim.git
+cd rndr.nvim
 ```
 
 Build the native renderer:
@@ -70,7 +70,7 @@ For plugin managers, make the build step run after clone/update.
 
 ```lua
 {
-  "SalarAlo/rndr_nvim",
+  "SalarAlo/rndr.nvim",
   build = "make",
   config = function()
     require("rndr").setup()
@@ -82,7 +82,7 @@ For plugin managers, make the build step run after clone/update.
 
 ```lua
 use({
-  "SalarAlo/rndr_nvim",
+  "SalarAlo/rndr.nvim",
   run = "make",
   config = function()
     require("rndr").setup()
@@ -96,7 +96,7 @@ If a user does not have `make`, they can use the script directly:
 
 ```lua
 {
-  "SalarAlo/rndr_nvim",
+  "SalarAlo/rndr.nvim",
   build = "./scripts/build_renderer.sh",
 }
 ```
