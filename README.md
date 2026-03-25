@@ -30,26 +30,6 @@ Optional:
 
 - `rsvg-convert`, `magick`, or `convert` for SVG rendering
 
-`assimp` does not need to be installed manually. The renderer uses a system copy when available and otherwise builds a bundled copy during setup.
-
-## Install
-
-Clone the repository and build the native renderer:
-
-```bash
-git clone https://github.com/SalarAlo/rndr.nvim.git
-cd rndr.nvim
-make
-```
-
-This produces the renderer binary at `renderer/build/rndr`.
-
-`make` is a thin wrapper around `./scripts/build_renderer.sh`. If you prefer raw CMake commands:
-
-```bash
-cmake -S renderer -B renderer/build -DCMAKE_BUILD_TYPE=Release
-cmake --build renderer/build --parallel --config Release
-```
 
 ## Plugin Manager Setup
 
@@ -87,6 +67,25 @@ If `make` is unavailable:
 ```
 
 If you keep the binary somewhere else, override `renderer.bin` in `setup()`.
+
+## Install
+
+Clone the repository and build the native renderer:
+
+```bash
+git clone https://github.com/SalarAlo/rndr.nvim.git
+cd rndr.nvim
+make
+```
+
+This produces the renderer binary at `renderer/build/rndr`.
+
+`make` is a thin wrapper around `./scripts/build_renderer.sh`. If you prefer raw CMake commands:
+
+```bash
+cmake -S renderer -B renderer/build -DCMAKE_BUILD_TYPE=Release
+cmake --build renderer/build --parallel --config Release
+```
 
 ## Quick Start
 
@@ -182,19 +181,6 @@ require("rndr").setup({
   },
 })
 ```
-
-Notes:
-
-- The public config shape is `preview`, `assets`, `window`, `renderer`, and `controls`.
-- Legacy flat keys such as `auto_open`, `renderer_bin`, `render`, `size`, and `win_options` still work.
-- Inspect defaults with `require("rndr").defaults()`.
-- `renderer.bin` defaults to `<plugin-root>/renderer/build/rndr`.
-- `preview.auto_open = true` registers autocommands for `preview.events`.
-- `preview.render_on_resize = true` rerenders visible previews when Neovim windows resize.
-- SVG files are rasterized into Neovim's cache directory before rendering.
-- The preview is rendered in-place in the current buffer.
-- Use `:RndrClose` to restore the original buffer contents.
-- First install can take longer if CMake needs to fetch and build `assimp`.
 
 ## Manual Renderer Usage
 
