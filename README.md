@@ -45,6 +45,17 @@ Optional:
 }
 ```
 
+> [!NOTE]
+> Compile times can take a while. If `lazy.nvim` times out your installation, add the following to your lazy config:
+
+```lua
+require("lazy").setup({
+  git = {
+    timeout = 900 -- 15 minutes
+  }
+})
+```
+
 `packer.nvim`:
 
 ```lua
