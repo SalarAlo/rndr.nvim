@@ -46,7 +46,8 @@ Optional:
 ```
 
 > [!NOTE]
-> Compile times can take a while. If `lazy.nvim` times out your installation, add the following to your lazy config:
+> Compile times can take a while. Installing `assimp` locally can drastically reduce compile times.
+> If `lazy.nvim` times out your installation, add the following to your lazy config:
 
 ```lua
 require("lazy").setup({
