@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <cctype>
 #include <cmath>
+#include <cstdint>
 
 std::optional<Rgb> parse_hex_color(const std::string& text) {
 	if (text.size() != 6) {
@@ -177,17 +178,38 @@ Rgb enhance(Rgb color, const ToneSettings& tone) {
 }
 
 void append_hex(std::string& output, Rgb color) {
-	static constexpr char hex_digits[] = "0123456789abcdef";
-	const int r = static_cast<int>(std::round(clamp01(color.r) * 255.0f));
-	const int g = static_cast<int>(std::round(clamp01(color.g) * 255.0f));
-	const int b = static_cast<int>(std::round(clamp01(color.b) * 255.0f));
+	const uint8_t r = static_cast<int>(std::round(clamp01(color.r) * 255.0f));
+	const uint8_t g = static_cast<int>(std::round(clamp01(color.g) * 255.0f));
+	const uint8_t b = static_cast<int>(std::round(clamp01(color.b) * 255.0f));
+  append_hex(output, r, g, b);
+}
 
+void append_hex(std::string& output, uint8_t r, uint8_t g, uint8_t b) {
+	static constexpr char hex_digits[] = "0123456789abcdef";
 	output.push_back(hex_digits[(r >> 4) & 0xF]);
 	output.push_back(hex_digits[r & 0xF]);
 	output.push_back(hex_digits[(g >> 4) & 0xF]);
 	output.push_back(hex_digits[g & 0xF]);
 	output.push_back(hex_digits[(b >> 4) & 0xF]);
 	output.push_back(hex_digits[b & 0xF]);
+}
+
+void append_utf8(std::string& output, uint32_t cp) {
+	if (cp <= 0x7F) {
+		output += static_cast<char>(cp);
+	} else if (cp <= 0x7FF) {
+		output += static_cast<char>(0xC0 | (cp >> 6));
+		output += static_cast<char>(0x80 | (cp & 0x3F));
+	} else if (cp <= 0xFFFF) {
+		output += static_cast<char>(0xE0 | (cp >> 12));
+		output += static_cast<char>(0x80 | ((cp >> 6) & 0x3F));
+		output += static_cast<char>(0x80 | (cp & 0x3F));
+	} else if (cp <= 0x10FFFF) {
+		output += static_cast<char>(0xF0 | (cp >> 18));
+		output += static_cast<char>(0x80 | ((cp >> 12) & 0x3F));
+		output += static_cast<char>(0x80 | ((cp >> 6) & 0x3F));
+		output += static_cast<char>(0x80 | (cp & 0x3F));
+	}
 }
 
 std::optional<int> parse_positive_int(const char* text) {

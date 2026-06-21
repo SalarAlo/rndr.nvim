@@ -1,5 +1,6 @@
 #pragma once
 
+#include <cstdint>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -118,6 +119,8 @@ Rgb multiply(Rgb a, Rgb b);
 Rgb lerp(Rgb from, Rgb to, float alpha);
 Rgb enhance(Rgb color, const ToneSettings& tone);
 void append_hex(std::string& output, Rgb color);
+void append_hex(std::string& output, uint8_t r, uint8_t g, uint8_t b);
+void append_utf8(std::string& output, uint32_t cp);
 std::optional<int> parse_positive_int(const char* text);
 std::optional<float> parse_float_arg(const char* text);
 std::vector<std::string_view> split_fields(std::string_view line, char delimiter);
@@ -135,8 +138,7 @@ std::optional<ModelData> load_model(const char* file_path, std::string* error = 
 SampledPixel sample_texture(const ImageData& image, Vec2 uv);
 bool load_cached_asset(CachedAsset& cache, const std::string& file_path, std::string* error = nullptr);
 
-void emit_terminal_frame(const std::vector<Rgb>& pixels, int width, int height, const ToneSettings& tone);
-std::vector<Rgb> downsample_pixels(const std::vector<Rgb>& source, int src_w, int src_h, int dst_w, int dst_h);
+void emit_terminal_frame(const std::vector<Rgb>& pixels, int img_w, int img_h, int term_w, int term_h, const ToneSettings& tone);
 std::vector<Rgb> rasterize_model(const ModelData& model, int width, int height, float yaw_degrees, float pitch_degrees, Rgb clear_color);
 void render_image(const ImageData& image, int max_term_w, int max_term_h, int supersample, Rgb clear_color, const ToneSettings& tone);
 void render_model(const ModelData& model, int max_term_w, int max_term_h, int supersample, float yaw_degrees, float pitch_degrees, Rgb clear_color, const ToneSettings& tone);
